@@ -15,7 +15,7 @@ module.exports = {
         return {
             status: 400,
             message: "Usuário ou senha inválidos"
-        }
+        } 
        }
        return {
         status: 200,
