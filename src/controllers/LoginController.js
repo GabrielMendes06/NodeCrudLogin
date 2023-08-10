@@ -2,10 +2,21 @@ const LoginModel = require('../models/LoginModel');
 const { use } = require('../routes');
 
 module.exports = {
+    loginValidation: async(req, res) => {
+        try {
+            const body = req.body
+            const result = await LoginModel.loginValidation(body);
+            console.log(result)
+            res.status(result.status).json({message: result.message})
+        } catch (error) {
+            res.status(500).json({error: 'Erro interno do servidor'});
+            console.log(error)
+        }
+    },
+
     getAll: async(req, res) => {
         try {
         const json = {result:[]};
-
         const users = await LoginModel.getAll();
 
         users.map((user) => {

@@ -1,52 +1,45 @@
-const db = require('../db')
+const { dbQuery } = require('../db')
 
 module.exports = {
-   getAll: () => {
-    return new Promise((accept, reject) => {
-        db.query('SELECT * FROM users', 
-        (error, results) => {
-            if(error) {
-                reject(error); 
-                return;
-            }
-            accept(results);
-        })
-    })
+    loginValidation: async (body) => {
+       const result = await dbQuery(`SELECT * FROM users WHERE email = "${body.email}"`)
+       console.log(result)
+       if (result.length === 0) {
+        return { 
+            status: 400,
+            message: "Usuário ou senha inválidos"
+        }
+       }
+       const validatePassword = result[0].password === body.password
+       if (!validatePassword) {
+        return {
+            status: 400,
+            message: "Usuário ou senha inválidos"
+        }
+       }
+       return {
+        status: 200,
+        message: "Deu bom família"
+       }
+    },
+
+    getAll: async () => {
+    const result = await dbQuery('SELECT * FROM users')
+    return result
    }, 
-   handleDelete: (id) => {
-    return new Promise ((accept, reject) => {
-        db.query(`DELETE FROM users WHERE id = ${id.id}`,
-        (error, results) => {
-            if(error) {
-                reject(error); 
-                return;
-            }
-            accept(results);
-        })
-    })
+
+   handleDelete: async (id) => {
+    const result = await dbQuery(`DELETE FROM users WHERE id = ${id.id}`)
+    return result
    },
-   handlePost: (body) => {
-    return new Promise ((accept, reject) => {
-        db.query(`INSERT INTO users (name, email, password) VALUES ("${body.name}", "${body.email}", "${body.password}")`,
-        (error, results) => {
-            if(error) {
-                reject(error)
-                return
-            }
-            accept(results);
-        })
-    })
+   
+   handlePost: async (body) => {
+    const result = await dbQuery(`INSERT INTO users (name, email, password) VALUES ("${body.name}", "${body.email}", "${body.password}")`)
+    return result
    },
-   handleUpdate: (body, id) => {
-    return new Promise ((accept, reject) => {
-        db.query (`UPDATE users SET name = '${body.name}', email = '${body.email}', password = '${body.password}' WHERE id = ${id.id}`,
-        (error, results) => {
-            if(error) {
-                reject(error)
-                return
-            } 
-            accept(results)        
-        })
-    })
-   }
+
+   handleUpdate: async (body, id) => {
+    const result = await dbQuery(`UPDATE users SET name = '${body.name}', email = '${body.email}', password = '${body.password}' WHERE id = ${id.id}`)
+    return result
+   } 
 }
