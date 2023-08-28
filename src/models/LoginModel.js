@@ -14,12 +14,12 @@ module.exports = {
        if (!validatePassword) {
         return {
             status: 400,
-            message: "Usuário ou senha inválidos"
+            name: "Usuário ou senha inválidos"
         } 
        }
        return {
         status: 200,
-        message: "Deu bom família"
+        dataUser: result[0],
        }
     },
 
@@ -39,7 +39,17 @@ module.exports = {
    },
 
    handleUpdate: async (body, id) => {
-    const result = await dbQuery(`UPDATE users SET name = '${body.name}', email = '${body.email}', password = '${body.password}' WHERE id = ${id.id}`)
+    const result = await dbQuery(`UPDATE users SET name = '${body.name}', email = '${body.email}', password = '${body.password}', balance = '${body.balance}' WHERE id = ${id.id}`)
     return result
-   } 
+   },
+
+   addBalance: async (body, id) => {
+    const result = await dbQuery(`UPDATE users SET balance = balance + '${body.balance}' WHERE id = ${id.id}`)
+    return result
+   },
+   
+   getUser: async (id) => {
+    const result = await dbQuery(`SELECT id, name, email, balance FROM users WHERE id = ${id.id}`)
+    return result
+   }
 }

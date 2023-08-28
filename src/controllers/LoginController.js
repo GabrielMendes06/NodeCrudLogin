@@ -7,7 +7,7 @@ module.exports = {
             const body = req.body
             const result = await LoginModel.loginValidation(body);
             console.log(result)
-            res.status(result.status).json({message: result.message})
+            res.status(result.status).json({user: result})            
         } catch (error) {
             res.status(500).json({error: 'Erro interno do servidor'});
             console.log(error)
@@ -61,5 +61,25 @@ module.exports = {
         } catch (error) {
             res.status(500).json({error: 'Erro interno do servidor'});
         }
+    },
+    addBalance: async(req, res) => {
+        try {
+            const id = req.params
+            const body = req.body
+            await LoginModel.addBalance(body, id);
+            res.status(201).json()
+        } catch (error) {
+            res.status(500).json({error: 'Erro interno do servidor'});
+        }
+    },
+    getUser: async(req, res) => {
+        try {
+        const id = req.params
+        const user = await LoginModel.getUser(id);       
+        res.json(user[0]) 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
     }
+    },
 } 

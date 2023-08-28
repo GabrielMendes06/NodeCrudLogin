@@ -1,0 +1,73 @@
+//Mostrar os DataBases
+
+SHOW DATABASES;
+
+//Criação do DataBase
+
+CREATE DATABASE sistemaDeCadastro;
+
+//Criação de tabela no DataBase
+
+CREATE TABLE usuarios(
+    nome VARCHAR(50),
+    email VARCHAR(100),
+    idade INT
+);
+
+//Verificar propriedades da tabela
+DESCRIBE table_name
+
+//Verificar dados da tabela
+SELECT * FROM table_name;
+
+//Inserir dados
+
+INSERT INTO usuarios(nome, email, idade) VALUES(
+    "Marcelão da massa",
+    "marcelo.matadordemosquito@teste.com",
+    70
+);
+
+INSERT INTO usuarios(nome, email, idade) VALUES(
+    "Pitondo calango seco",
+    "pitondo.matadordepombo@teste.com",
+    70
+);
+
+//Deletar dados
+DELETE FROM usuarios WHERE nome = "Marcelão da massa";
+
+//Atualizar dados
+UPDATE usuarios SET nome = "Gabriel Mendes da Silva" WHERE nome = "Gabriel Mendes";
+UPDATE usuarios SET idade = 22 WHERE idade = 70 && nome = "Marcelão da massa";
+
+//Conexão do node.js com o banco de dados
+Utilize o pacote mysql2 e sequelize, depois disso, puxe o require do sequelize pra uma variavel chamada Sequelize, 
+e passe sua função para outra variavel, ex:
+
+const Sequelize = require("sequelize")
+
+const sequelize = new Sequelize("test"//database, "root"//usuario, "Ac,14789as"//senha, {
+    host: "localhost",
+    dialect: "mysql"
+})
+
+//Confirmação de autenticação
+
+sequelize.authenticate().then(() => {
+    console.log("Conectado com sucesso!")
+}).catch((erro) => {
+    console.log(`Falha ao se conectar: ${erro}`)
+})
+
+//Criação de tabelas através do Sequelize
+
+const Postagem = sequelize.define('postagens'//Model name, {
+	//Atributos do model são definidos aqui
+    titulo: {
+        type: Sequelize.STRING
+    },
+    conteudo: {
+        type: Sequelize.TEXT
+    }
+})
