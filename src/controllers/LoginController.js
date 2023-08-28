@@ -72,7 +72,7 @@ module.exports = {
             res.status(500).json({error: 'Erro interno do servidor'});
         }
     },
-    getUser: async(req, res) => {
+    getUser: async(req, res) => { 
         try {
         const id = req.params
         const user = await LoginModel.getUser(id);       
