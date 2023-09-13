@@ -3,12 +3,19 @@ const router = express.Router();
 
 const LoginController = require('./controllers/LoginController')
 
-router.post('/users', LoginController.loginValidation)
-//router.get('/users', LoginController.getAll);
-router.delete('/users/:id', LoginController.handleDelete);
+
+router.get('/users/statementdata/:id', LoginController.getAllStatement);
+router.get('/users/getuser/:id', LoginController.getUser);
+router.get('/users/getallusers', LoginController.getAllUsers)
+
 router.post('/new-user', LoginController.handlePost);
+router.post('/users', LoginController.loginValidation);
+router.post('/users/transferbalance', LoginController.transferBalance)
+
 router.put('/users/:id', LoginController.handleUpdate);
 router.put('/users/newbalance/:id', LoginController.addBalance);
-router.get('/users/getuser/:id', LoginController.getUser);
+
+router.delete('/users/:id', LoginController.handleDelete);
+
 
 module.exports = router; 
